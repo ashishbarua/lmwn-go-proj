@@ -7,7 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func HandleCovidSummary(c *gin.Context) {
-	summary := service.GetCovidDataSummary()
+var HandlerInstance = &Handler{
+	Service: service.ServiceInstance,
+}
+
+type Handler struct {
+	Service service.IService
+}
+
+func (h *Handler) HandleCovidSummary(c *gin.Context) {
+	summary := h.Service.GetCovidDataSummary()
 	c.JSON(http.StatusOK, summary)
 }

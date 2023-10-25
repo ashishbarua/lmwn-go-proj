@@ -7,6 +7,35 @@ import (
 	"example.com/lmwn-go-proj/repository"
 )
 
+func TestGetCovidDataSummary(t *testing.T) {
+	testservice := Service{
+		Repository: MockRepoInstance,
+	}
+
+	summary := testservice.GetCovidDataSummary()
+
+	expectedsummary := CountResponse{
+		Province: ProvinceType{
+			"A": 1,
+			"B": 2,
+			"C": 2,
+			"D": 1,
+		},
+		AgeGroup: AgeGroupType{
+			ZeroToThirty:     1,
+			ThirtyOneToSixty: 4,
+			SixtyOnePlus:     1,
+			NA:               0,
+		},
+	}
+
+	if !reflect.DeepEqual(summary, expectedsummary) {
+		t.Errorf("Test failed: Expected %v, received %v", expectedsummary, summary)
+	} else {
+		t.Logf("Test passed: Expected %v, received %v", expectedsummary, summary)
+	}
+}
+
 func TestUpdateAgeGroupTally(t *testing.T) {
 	age1 := 19
 	age2 := 45
