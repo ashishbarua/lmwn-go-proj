@@ -29,10 +29,19 @@ type DataResponse struct {
 const COVID_DATA_URL = "https://static.wongnai.com/devinterview/covid-cases.json"
 
 func GetCovidData() []CovidRecord {
+	apiResponse := callAPI()
+	return deSerializeResponse(apiResponse)
+}
+
+func callAPI() []byte {
 	resp, _ := http.Get(COVID_DATA_URL)
 	body, _ := io.ReadAll(resp.Body)
-
 	defer resp.Body.Close()
+
+	return body
+}
+
+func deSerializeResponse(body []byte) []CovidRecord {
 	var dataResponse DataResponse
 	var records []CovidRecord
 
