@@ -1,19 +1,12 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-
-	"example.com/lmwn-go-proj/service"
+	"example.com/lmwn-go-proj/handler"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	cdSummary := service.GetCovidDataSummary()
-	str, err := json.Marshal(cdSummary)
-
-	if err != nil {
-		fmt.Println("Marshaling failed")
-	} else {
-		fmt.Println(string(str))
-	}
+	r := gin.Default()
+	r.GET("/covid/summary", handler.HandleCovidSummary)
+	r.Run(":3000")
 }
