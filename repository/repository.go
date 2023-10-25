@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// Some fields are set as type *any as they are consistently having "null" as their value throughout the data set
 type CovidRecord struct {
 	ConfirmDate    string
 	No             *any
