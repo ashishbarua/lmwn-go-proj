@@ -4,6 +4,10 @@ import (
 	"example.com/lmwn-go-proj/repository"
 )
 
+var ServiceInstance = &Service{
+	Repository: repository.RepositoryInstance,
+}
+
 type IService interface {
 	GetCovidDataSummary() CountResponse
 }
@@ -56,8 +60,4 @@ func (p ProvinceType) updateProvinceTally(cr repository.CovidRecord) {
 type CountResponse struct {
 	AgeGroup AgeGroupType
 	Province ProvinceType
-}
-
-var ServiceInstance = &Service{
-	Repository: repository.RepositoryInstance,
 }

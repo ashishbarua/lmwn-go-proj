@@ -9,6 +9,8 @@ import (
 	"example.com/lmwn-go-proj/constants"
 )
 
+var RepositoryInstance = &Repository{}
+
 // Some fields are set as type *any as they are consistently having "null" as their value throughout the data set
 type CovidRecord struct {
 	ConfirmDate    string
@@ -60,5 +62,3 @@ func (r *Repository) deSerializeResponse(body []byte) []CovidRecord {
 	}
 	return records
 }
-
-var RepositoryInstance = &Repository{}
