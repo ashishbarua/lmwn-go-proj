@@ -1,12 +1,19 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	"example.com/lmwn-go-proj/repository"
+	"example.com/lmwn-go-proj/service"
 )
 
 func main() {
-	records := repository.GetCovidData()
-	fmt.Println("1st record", records[0])
+	cdSummary := service.GetCovidDataSummary()
+	str, err := json.Marshal(cdSummary)
+
+	if err != nil {
+		fmt.Println("Marshaling failed")
+	} else {
+		fmt.Println(string(str))
+	}
 }

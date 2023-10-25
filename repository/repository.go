@@ -10,7 +10,7 @@ import (
 type CovidRecord struct {
 	ConfirmDate    string
 	No             *any
-	Age            int
+	Age            *int
 	Gender         string
 	GenderEn       string
 	Nation         *any
