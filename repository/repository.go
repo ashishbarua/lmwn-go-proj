@@ -5,6 +5,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+
+	"example.com/lmwn-go-proj/constants"
 )
 
 // Some fields are set as type *any as they are consistently having "null" as their value throughout the data set
@@ -27,22 +29,26 @@ type DataResponse struct {
 	Data []CovidRecord
 }
 
-const COVID_DATA_URL = "https://static.wongnai.com/devinterview/covid-cases.json"
-
-func GetCovidData() []CovidRecord {
-	apiResponse := callAPI()
-	return deSerializeResponse(apiResponse)
+type IRepository interface {
+	GetCovidData() []CovidRecord
 }
 
-func callAPI() []byte {
-	resp, _ := http.Get(COVID_DATA_URL)
+type Repository struct{}
+
+func (r *Repository) GetCovidData() []CovidRecord {
+	apiResponse := r.callAPI()
+	return r.deSerializeResponse(apiResponse)
+}
+
+func (r *Repository) callAPI() []byte {
+	resp, _ := http.Get(constants.COVID_DATA_URL)
 	body, _ := io.ReadAll(resp.Body)
 	defer resp.Body.Close()
 
 	return body
 }
 
-func deSerializeResponse(body []byte) []CovidRecord {
+func (r *Repository) deSerializeResponse(body []byte) []CovidRecord {
 	var dataResponse DataResponse
 	var records []CovidRecord
 
@@ -54,3 +60,5 @@ func deSerializeResponse(body []byte) []CovidRecord {
 	}
 	return records
 }
+
+var RepositoryInstance = &Repository{}

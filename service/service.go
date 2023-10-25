@@ -4,10 +4,29 @@ import (
 	"example.com/lmwn-go-proj/repository"
 )
 
-const ZeroToThirty = "0-30"
-const ThiryOneToSixty = "31-60"
-const SixtyOnePlus = "61+"
-const NA = "N/A"
+type IService interface {
+	GetCovidDataSummary() CountResponse
+}
+
+type Service struct {
+	Repository repository.IRepository
+}
+
+func (s *Service) GetCovidDataSummary() CountResponse {
+	records := s.Repository.GetCovidData()
+	var agTally AgeGroupType
+	provinceTally := ProvinceType{}
+
+	for _, r := range records {
+		agTally.updateAgeGroupTally(r)
+		provinceTally.updateProvinceTally(r)
+	}
+
+	return CountResponse{
+		AgeGroup: agTally,
+		Province: provinceTally,
+	}
+}
 
 type AgeGroupType struct {
 	ZeroToThirty     int `json:"0-30"`
@@ -39,18 +58,6 @@ type CountResponse struct {
 	Province ProvinceType
 }
 
-func GetCovidDataSummary() CountResponse {
-	records := repository.GetCovidData()
-	var agTally AgeGroupType
-	provinceTally := ProvinceType{}
-
-	for _, r := range records {
-		agTally.updateAgeGroupTally(r)
-		provinceTally.updateProvinceTally(r)
-	}
-
-	return CountResponse{
-		AgeGroup: agTally,
-		Province: provinceTally,
-	}
+var ServiceInstance = &Service{
+	Repository: repository.RepositoryInstance,
 }
