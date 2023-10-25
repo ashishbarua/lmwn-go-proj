@@ -31,11 +31,7 @@ func (ag *AgeGroupType) updateAgeGroupTally(cr repository.CovidRecord) {
 type ProvinceType map[string]int
 
 func (p ProvinceType) updateProvinceTally(cr repository.CovidRecord) {
-	if cr.Province != "" {
-		p[cr.Province] += 1
-	} else if cr.ProvinceEn != "" {
-		p[cr.ProvinceEn] += 1
-	}
+	p[cr.Province] += 1
 }
 
 type CountResponse struct {
