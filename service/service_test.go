@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -14,7 +13,6 @@ func TestGetCovidDataSummary(t *testing.T) {
 	}
 
 	summary := testservice.GetCovidDataSummary()
-	fmt.Println("Summary", summary)
 
 	expectedsummary := CountResponse{
 		Province: ProvinceType{
